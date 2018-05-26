@@ -9,6 +9,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.mkyong.Car;
+import com.mkyong.DatabaseManager;
 @Path("/Car")
 public class JSONServices {
 	@GET
@@ -18,13 +19,14 @@ public class JSONServices {
 	public Car getCarInJSON(@PathParam("VIN")String vin) {
 
 		Car car = new Car();
-//for now just making temporary changes so as to check whether services are working or not
-		car.setVIN(vin);
+		DatabaseManager db=new DatabaseManager();
+		car= db.ReadCarDetails(vin);
+		/*car.setVIN(vin);
 		car.setBrand_Name("TATA");
 		car.setHas_Hatchback(false);
 		car.setLuxury_level("Medium");
 		car.setModel_Name("indigo");
-		car.setSeater_Type("4-seaters");
+		car.setSeater_Type("4-seaters");*/
 		return car;
 
 	}
