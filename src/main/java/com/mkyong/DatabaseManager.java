@@ -7,7 +7,7 @@ public class DatabaseManager {
 	public Car ReadCarDetails(String VIN) throws Exception
 	{
 		Car car = new Car();
-		try {
+		//try {
 	      // create our mysql database connection
 	      String myDriver = "com.mysql.cj.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
@@ -43,19 +43,19 @@ public class DatabaseManager {
 	        // print the results
 	        //System.out.format("%s, %s, %s, %s, %s, %s\n", id, firstName, lastName, dateCreated, isAdmin, numPoints);
 	      pstmt.close();
-		}
-	    catch (Exception e)
+		//}
+	    /*catch (Exception e)
 	    {
 	      System.err.println("Got an exception! ");
 	      System.err.println(e.getMessage());
-	    }
+	    }*/
 		 return car;
 	  }
-public void EnterCarDetails(Car car)
+public void EnterCarDetails(Car car)throws Exception
 {
 	//int i=0;
-	try
-    {
+	/*try
+    {*/
       // create our mysql database connection
 	  String myDriver = "com.mysql.cj.jdbc.Driver";
       String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
@@ -83,19 +83,19 @@ public void EnterCarDetails(Car car)
       pstmt.close();
       /*if(i==0)
     	  throw new Exception("Duplicate entries found!!!");*/
-}
-	catch (Exception e)
+//}
+	/*catch (Exception e)
     {
       System.err.println("Got an exception! ");
       System.err.println(e.getMessage());
-    }
+    }*/
 }
 	//return i;
 
-public boolean UpdateCarDetails(String VIN,String Brand)
+public boolean UpdateCarDetails(String VIN,String Brand)throws Exception
 {
 	boolean res=false;
-	try {
+	/*try {*/
 		String myDriver = "com.mysql.cj.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost:3306/test_db";
 	      Class.forName(myDriver);
@@ -108,19 +108,19 @@ public boolean UpdateCarDetails(String VIN,String Brand)
 			if(i==1) {
 				res=true;
 			}
-	}
-	catch (Exception e)
+	//}
+	/*catch (Exception e)
     {
       System.err.println("Got an exception! ");
       System.err.println(e.getMessage());
-    }
+    }*/
 			return res;
 }
-public boolean DeleteCarRecord(String VIN)
+public boolean DeleteCarRecord(String VIN)throws Exception
 {
 	boolean res=false;
-	try
-	{
+	/*try
+	{*/
 		String myDriver = "com.mysql.cj.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://localhost:3306/test_db";
 	      Class.forName(myDriver);
@@ -133,12 +133,12 @@ public boolean DeleteCarRecord(String VIN)
 				res=true;
 			}
 	
-	}
-	catch (Exception e)
+	//}
+	/*catch (Exception e)
     {
       System.err.println("Got an exception! ");
       System.err.println(e.getMessage());
-    }
+    }*/
 	return res;
 }
 
@@ -160,7 +160,7 @@ public static void main(String args[])throws IOException
 	}
 	catch(Exception e)
 	{
-		System.err.println(e.getMessage());
+		System.err.println("Inside main:"+e.getMessage());
 		//e.printStackTrace();
 	}
 	/*Car car1=new Car();
