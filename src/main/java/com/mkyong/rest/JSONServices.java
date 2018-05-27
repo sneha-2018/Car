@@ -20,9 +20,9 @@ public class JSONServices {
 	//It will take VIN number of car and then find it in database n will display that record accordingly
 	public Car getCarInJSON(@PathParam("VIN")String vin) {
 
-		Car car = new Car();
+		//Car car = new Car();
 		DatabaseManager db=new DatabaseManager();
-		car= db.ReadCarDetails(vin);
+		Car car= db.ReadCarDetails(vin);
 		/*car.setVIN(vin);
 		car.setBrand_Name("TATA");
 		car.setHas_Hatchback(false);

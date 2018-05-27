@@ -1,5 +1,5 @@
 package com.mkyong;
-//import java.io.IOException;
+import java.io.IOException;
 import java.sql.*;
 //import java.util.ArrayList;
 import com.mkyong.Car;
@@ -11,7 +11,7 @@ public class DatabaseManager {
 	    {
 	      // create our mysql database connection
 	      String myDriver = "com.mysql.cj.jdbc.Driver";
-	      String myUrl = "jdbc:mysql://localhost:3306/test_db";
+	      String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
 	      Class.forName(myDriver);
 	      Connection conn = DriverManager.getConnection(myUrl, "root@localhost", "");
 	      
@@ -59,7 +59,7 @@ public void EnterCarDetails(Car car)
       // create our mysql database connection
         @Deprecated
 		String myDriver = "com.mysql.cj.jdbc.Driver";
-      String myUrl = "jdbc:mysql://localhost:3306/test_db";
+      String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
       Class.forName(myDriver);
       Connection conn = DriverManager.getConnection(myUrl, "root@localhost", "");
      String VIN	=car.getVIN();
@@ -138,15 +138,14 @@ public boolean DeleteCarRecord(String VIN)
     }
 	return res;
 }
-}
-/*
+
 public static void main(String args[])throws IOException
 {
 	DatabaseManager db=new DatabaseManager();
 	Car car=new Car();
 	car=db.ReadCarDetails("DL125783259TRQ2F");
 	System.out.println(car.getBrand_Name());
-	Car car1=new Car();
+	/*Car car1=new Car();
 	car1.setVIN("BL12357845962PU87M");
 	car1.setBrand_Name("TATA");
 	car1.setModel_Name("INDICA");
@@ -156,6 +155,6 @@ public static void main(String args[])throws IOException
 	db.EnterCarDetails(car1);
 	boolean res=db.UpdateCarDetails("DL125783259TRQ2F", "Mercedes");
     //res=db.DeleteCarRecord("BL12357845962PU87M");
-	System.out.println(res);
+	System.out.println(res);*/
 }
-}*/
+}
