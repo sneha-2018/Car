@@ -31,7 +31,7 @@ public class JSONServices {
 		car.setModel_Name("indigo");
 		car.setSeater_Type("4-seaters");*/
 		ObjectMapper objectMapper = new ObjectMapper();
-		if(car!=null)
+		if(car.getVIN()!=null)
 		{
 			String carJson;
 				carJson = objectMapper.writeValueAsString(car);
