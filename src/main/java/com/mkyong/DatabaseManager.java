@@ -4,11 +4,10 @@ import java.sql.*;
 //import java.util.ArrayList;
 import com.mkyong.Car;
 public class DatabaseManager {
-	public Car ReadCarDetails(String VIN)
+	public Car ReadCarDetails(String VIN) throws Exception
 	{
 		Car car = new Car();
-		try
-	    {
+		try {
 	      // create our mysql database connection
 	      String myDriver = "com.mysql.cj.jdbc.Driver";
 	      String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
@@ -44,7 +43,7 @@ public class DatabaseManager {
 	        // print the results
 	        //System.out.format("%s, %s, %s, %s, %s, %s\n", id, firstName, lastName, dateCreated, isAdmin, numPoints);
 	      pstmt.close();
-	    }
+		}
 	    catch (Exception e)
 	    {
 	      System.err.println("Got an exception! ");
@@ -54,11 +53,11 @@ public class DatabaseManager {
 	  }
 public void EnterCarDetails(Car car)
 {
+	//int i=0;
 	try
     {
       // create our mysql database connection
-        @Deprecated
-		String myDriver = "com.mysql.cj.jdbc.Driver";
+	  String myDriver = "com.mysql.cj.jdbc.Driver";
       String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
       Class.forName(myDriver);
       Connection conn = DriverManager.getConnection(myUrl, "root@localhost", "");
@@ -82,13 +81,17 @@ public void EnterCarDetails(Car car)
       pstmt.setString(6, LuxLevel);
       pstmt.executeUpdate();
       pstmt.close();
-    }
+      /*if(i==0)
+    	  throw new Exception("Duplicate entries found!!!");*/
+}
 	catch (Exception e)
     {
       System.err.println("Got an exception! ");
       System.err.println(e.getMessage());
     }
 }
+	//return i;
+
 public boolean UpdateCarDetails(String VIN,String Brand)
 {
 	boolean res=false;
@@ -141,10 +144,25 @@ public boolean DeleteCarRecord(String VIN)
 
 public static void main(String args[])throws IOException
 {
+	try {
 	DatabaseManager db=new DatabaseManager();
 	Car car=new Car();
-	car=db.ReadCarDetails("DL125783259TRQ2F");
+	car=db.ReadCarDetails("45210khlljnfmk");
 	System.out.println(car.getBrand_Name());
+	Car car1=new Car();
+	car1.setVIN("BL12357845962PU87M");
+	car1.setBrand_Name("TATA");
+	car1.setModel_Name("INDICA");
+	car1.setHas_Hatchback(false);
+	car1.setSeater_Type("4-SEATERS");
+	car1.setLuxury_level("MEDIUM");
+	db.EnterCarDetails(car1);
+	}
+	catch(Exception e)
+	{
+		System.err.println(e.getMessage());
+		//e.printStackTrace();
+	}
 	/*Car car1=new Car();
 	car1.setVIN("BL12357845962PU87M");
 	car1.setBrand_Name("TATA");
