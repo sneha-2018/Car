@@ -4,15 +4,26 @@ import java.sql.*;
 //import java.util.ArrayList;
 import com.mkyong.Car;
 public class DatabaseManager {
+	public Connection getDBConnection()
+	{
+		Connection conn=null;
+		try
+		{
+			  String myDriver = "com.mysql.cj.jdbc.Driver";
+		      String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
+		      Class.forName(myDriver);
+		      conn = DriverManager.getConnection(myUrl, "root@localhost", "");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return conn;
+	}
 	public Car ReadCarDetails(String VIN) throws Exception
 	{
-		Car car = new Car();
-		//try {
-	      // create our mysql database connection
-	      String myDriver = "com.mysql.cj.jdbc.Driver";
-	      String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
-	      Class.forName(myDriver);
-	      Connection conn = DriverManager.getConnection(myUrl, "root@localhost", "");
+		  Car car = new Car();
+	      Connection conn = getDBConnection();
 	      
 	      // our SQL SELECT query. 
 	      // if you only need a few columns, specify them by name instead of using "*"
@@ -28,39 +39,27 @@ public class DatabaseManager {
 	      // iterate through the java resultset
 	      while (rs.next())
 	      {
-	        String Brand = rs.getString("Brand_Name");
-	        String Model = rs.getString("Model_name");
-	        boolean hasHatch = rs.getBoolean("Hatchback");
-	        String Class = rs.getString("Seater");
-	        String LuxLevel = rs.getString("Luxury_level");
-	      		car.setVIN(VIN);
-	      		car.setBrand_Name(Brand);
-	      		car.setHas_Hatchback(hasHatch);
-	      		car.setLuxury_level(LuxLevel);
-	      		car.setModel_Name(Model);
-	      		car.setSeater_Type(Class);
+	        String Brand = 		rs.getString("Brand_Name");
+	        String Model = 		rs.getString("Model_name");
+	        boolean hasHatch = 	rs.getBoolean("Hatchback");
+	        String Class = 		rs.getString("Seater");
+	        String LuxLevel = 	rs.getString("Luxury_level");
+      		car.setVIN(VIN);
+      		car.setBrand_Name(Brand);
+      		car.setHas_Hatchback(hasHatch);
+      		car.setLuxury_level(LuxLevel);
+      		car.setModel_Name(Model);
+      		car.setSeater_Type(Class);
 	      }
 	        // print the results
 	        //System.out.format("%s, %s, %s, %s, %s, %s\n", id, firstName, lastName, dateCreated, isAdmin, numPoints);
 	      pstmt.close();
 		//}
-	    /*catch (Exception e)
-	    {
-	      System.err.println("Got an exception! ");
-	      System.err.println(e.getMessage());
-	    }*/
 		 return car;
 	  }
 public void EnterCarDetails(Car car)throws Exception
 {
-	//int i=0;
-	/*try
-    {*/
-      // create our mysql database connection
-	  String myDriver = "com.mysql.cj.jdbc.Driver";
-      String myUrl = "jdbc:mysql://127.0.0.1:3306/test_db";
-      Class.forName(myDriver);
-      Connection conn = DriverManager.getConnection(myUrl, "root@localhost", "");
+	 Connection conn = getDBConnection();
      String VIN	=car.getVIN();
 	 String Brand=car.getBrand_Name();
 	 boolean Hatch=car.isHas_Hatchback();
@@ -81,64 +80,32 @@ public void EnterCarDetails(Car car)throws Exception
       pstmt.setString(6, LuxLevel);
       pstmt.executeUpdate();
       pstmt.close();
-      /*if(i==0)
-    	  throw new Exception("Duplicate entries found!!!");*/
-//}
-	/*catch (Exception e)
-    {
-      System.err.println("Got an exception! ");
-      System.err.println(e.getMessage());
-    }*/
 }
-	//return i;
-
 public boolean UpdateCarDetails(String VIN,String Brand)throws Exception
 {
 	boolean res=false;
-	/*try {*/
-		String myDriver = "com.mysql.cj.jdbc.Driver";
-	      String myUrl = "jdbc:mysql://localhost:3306/test_db";
-	      Class.forName(myDriver);
-	      Connection conn = DriverManager.getConnection(myUrl, "root@localhost", "");
-			String query="UPDATE car SET Brand_Name=? WHERE Vin=?";
-			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, Brand);
-			pstmt.setString(2, VIN);
-			int i=pstmt.executeUpdate();
-			if(i==1) {
-				res=true;
-			}
-	//}
-	/*catch (Exception e)
-    {
-      System.err.println("Got an exception! ");
-      System.err.println(e.getMessage());
-    }*/
-			return res;
+    Connection conn = getDBConnection();
+	String query="UPDATE car SET Brand_Name=? WHERE Vin=?";
+	PreparedStatement pstmt = conn.prepareStatement(query);
+	pstmt.setString(1, Brand);
+	pstmt.setString(2, VIN);
+	int i=pstmt.executeUpdate();
+	if(i==1) {
+		res=true;
+	}
+	return res;
 }
 public boolean DeleteCarRecord(String VIN)throws Exception
 {
 	boolean res=false;
-	/*try
-	{*/
-		String myDriver = "com.mysql.cj.jdbc.Driver";
-	      String myUrl = "jdbc:mysql://localhost:3306/test_db";
-	      Class.forName(myDriver);
-	      Connection conn = DriverManager.getConnection(myUrl, "root@localhost", "");
-			String query="DELETE FROM car WHERE Vin=?";
-			PreparedStatement pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, VIN);
-			int i=pstmt.executeUpdate();
-			if(i==1) {
-				res=true;
-			}
-	
-	//}
-	/*catch (Exception e)
-    {
-      System.err.println("Got an exception! ");
-      System.err.println(e.getMessage());
-    }*/
+    Connection conn = getDBConnection();
+	String query="DELETE FROM car WHERE Vin=?";
+	PreparedStatement pstmt = conn.prepareStatement(query);
+	pstmt.setString(1, VIN);
+	int i=pstmt.executeUpdate();
+	if(i==1) {
+		res=true;
+	}
 	return res;
 }
 
@@ -147,15 +114,16 @@ public static void main(String args[])throws IOException
 	try {
 	DatabaseManager db=new DatabaseManager();
 	Car car=new Car();
-	car=db.ReadCarDetails("45210khlljnfmk");
-	System.out.println(car.getBrand_Name());
+	car=db.ReadCarDetails("1234567825");
+	if(car.getVIN()!=null)
+		System.out.println(car.getBrand_Name());
 	Car car1=new Car();
-	car1.setVIN("BL12357845962PU87M");
-	car1.setBrand_Name("TATA");
-	car1.setModel_Name("INDICA");
-	car1.setHas_Hatchback(false);
+	car1.setVIN("MHKLOP123478529");
+	car1.setBrand_Name("AUDI");
+	car1.setModel_Name("A8");
+	car1.setHas_Hatchback(true);
 	car1.setSeater_Type("4-SEATERS");
-	car1.setLuxury_level("MEDIUM");
+	car1.setLuxury_level("High");
 	db.EnterCarDetails(car1);
 	}
 	catch(Exception e)

@@ -19,28 +19,20 @@ public class JSONServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	//It will take VIN number of car and then find it in database n will display that record accordingly
 	public Response getCarInJSON(@PathParam("VIN")String vin) {
-
-		//Car car = new Car();
 		DatabaseManager db=new DatabaseManager();
 		try {
-		Car car= db.ReadCarDetails(vin);
-		/*car.setVIN(vin);
-		car.setBrand_Name("TATA");
-		car.setHas_Hatchback(false);
-		car.setLuxury_level("Medium");
-		car.setModel_Name("indigo");
-		car.setSeater_Type("4-seaters");*/
-		ObjectMapper objectMapper = new ObjectMapper();
-		if(car.getVIN()!=null)
-		{
-			String carJson;
+			ObjectMapper objectMapper = new ObjectMapper();
+			Car car= db.ReadCarDetails(vin);
+			if(car.getVIN()!=null)
+			{
+				String carJson;
 				carJson = objectMapper.writeValueAsString(car);
 				return Response.status(200).entity(carJson).build();
-		}
-		else {
-			String msg="entry not found!!!!!!";
-			return Response.status(404).entity(msg).build();
-		}
+			}
+			else {
+				String msg="{ \"Error\" : \"Entry not Found \"}";//"entry not found!!!!!!";
+				return Response.status(404).entity(msg).build();
+			}
 		}
 		catch (Exception e) {
 			String err=e.getMessage();
@@ -52,7 +44,7 @@ public class JSONServices {
 	@POST
 	@Path("/post")
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createCarInJSON(Car car) {
+	public Response createCarInJSON(Car car) {	
 		String result="";
 		try {
 		DatabaseManager db=new DatabaseManager();
